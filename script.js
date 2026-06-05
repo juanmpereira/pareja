@@ -6,7 +6,7 @@ const questions = [
     correct: "Pizza",
     photo: "assets/momento-1.jpg",
     momentTitle: "Nuestro primer plato juntos",
-    momentCaption: "Reemplaza esta imagen por la foto de ese dia.",
+    momentCaption: "Un poquito quemadas pero se intentaron.",
   },
   {
     title: "2. Cual fue nuestro primer viaje juntos?",
@@ -15,7 +15,7 @@ const questions = [
     correct: "San clemente",
     photo: "assets/momento-2.jpg",
     momentTitle: "Nuestro primer viaje",
-    momentCaption: "Agrega aqui una foto de San Clemente.",
+    momentCaption: "A conocer a toda mi familia.",
   },
   {
     title: "3. Cual fue la primer pelicula que vimos en el cine?",
@@ -24,7 +24,7 @@ const questions = [
     correct: "Tornados",
     photo: "assets/momento-3.jpg",
     momentTitle: "Nuestra primera pelicula",
-    momentCaption: "Pon una foto de esa salida al cine.",
+    momentCaption: "Peliculon ya la primera que vimos.",
   },
   {
     title: "4. En que restaurant festejamos nuestro primer mes de novios?",
@@ -33,7 +33,7 @@ const questions = [
     correct: "Nu fuegos",
     photo: "assets/momento-4.jpg",
     momentTitle: "Nuestro primer mes",
-    momentCaption: "Suma una foto de ese festejo.",
+    momentCaption: "Hay que volver por favor lo bien que comimos.",
   },
   {
     title: "5. Cual es el mejor dia del anio?",
@@ -96,7 +96,7 @@ function evaluateAnswer(selectedOption) {
   const q = questions[currentQuestion];
 
   if (selectedOption !== q.correct) {
-    answerFeedback.textContent = "Casi... puedes volver a intentarlo todas las veces que quieras.";
+    answerFeedback.textContent = "Casi... puedes volver a intentarlo.";
     answerFeedback.className = "answer-feedback error";
     return;
   }

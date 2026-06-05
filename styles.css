@@ -165,6 +165,11 @@ body {
   max-height: 300px;
 }
 
+#our-photo {
+  max-height: 380px;
+  object-position: center 30%;
+}
+
 .photo-frame figcaption {
   margin-top: 8px;
   text-align: center;
