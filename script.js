@@ -37,7 +37,7 @@ const questions = [
   },
   {
     title: "5. Cual es el mejor dia del año?",
-    subtitle: "Ultima para desbloquear la gran pregunta.",
+    subtitle: "Ya casi llegamos al final.",
     options: ["26/11", "30/11", "09/06", "18/08"],
     correct: "18/08",
   },
