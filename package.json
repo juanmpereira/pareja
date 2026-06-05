@@ -4,10 +4,7 @@
   "private": true,
   "description": "Sitio romantico con quiz y propuesta final",
   "scripts": {
-    "start": "serve -s . -l $PORT"
-  },
-  "dependencies": {
-    "serve": "^14.2.4"
+    "start": "node server.js"
   },
   "engines": {
     "node": ">=18"
