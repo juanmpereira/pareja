@@ -36,7 +36,7 @@ const questions = [
     momentCaption: "Hay que volver por favor lo bien que comimos.",
   },
   {
-    title: "5. Cual es el mejor dia del anio?",
+    title: "5. Cual es el mejor dia del año?",
     subtitle: "Ultima para desbloquear la gran pregunta.",
     options: ["26/11", "30/11", "09/06", "18/08"],
     correct: "18/08",
