@@ -2,7 +2,7 @@ const http = require("http");
 const fs = require("fs");
 const path = require("path");
 
-const PORT = process.env.PORT || 3000;
+const PORT = Number(process.env.PORT || 3000);
 const HOST = "0.0.0.0";
 const ROOT = __dirname;
 
@@ -41,7 +41,7 @@ function sendFile(res, filePath) {
   });
 }
 
-const server = http.createServer((req, res) => {
+function requestHandler(req, res) {
   console.log(`${new Date().toISOString()} ${req.method} ${req.url}`);
 
   if (req.url === "/health") {
@@ -68,8 +68,17 @@ const server = http.createServer((req, res) => {
 
     sendFile(res, path.join(ROOT, "index.html"));
   });
-});
+}
 
-server.listen(PORT, HOST, () => {
+const mainServer = http.createServer(requestHandler);
+
+mainServer.listen(PORT, HOST, () => {
   console.log(`Server running on http://${HOST}:${PORT}`);
+
+  if (PORT !== 3000) {
+    const fallbackServer = http.createServer(requestHandler);
+    fallbackServer.listen(3000, HOST, () => {
+      console.log(`Server running on http://${HOST}:3000`);
+    });
+  }
 });
