@@ -195,6 +195,133 @@ body {
   margin-top: 14px;
 }
 
+.big-date {
+  margin: 8px 0;
+  font-family: "Playfair Display", serif;
+  font-size: clamp(2.4rem, 8vw, 4.6rem);
+  line-height: 1;
+  color: #b14a3f;
+}
+
+.dual-photos {
+  margin-top: 16px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.small-photo-frame {
+  width: 100%;
+}
+
+.proposal-feedback {
+  min-height: 24px;
+  margin: 10px 0 0;
+  font-weight: 700;
+  color: #b34137;
+}
+
+.celebration-card {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(165deg, #fff8f0 0%, #ffd9cf 100%);
+}
+
+.celebration-card::before,
+.celebration-card::after {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  width: 180px;
+  height: 180px;
+  background: radial-gradient(circle, rgba(227, 107, 95, 0.2), transparent 70%);
+  border-radius: 999px;
+}
+
+.celebration-card::before {
+  top: -40px;
+  left: -20px;
+}
+
+.celebration-card::after {
+  bottom: -50px;
+  right: -20px;
+}
+
+.celebration-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+.hearts {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.heart {
+  position: absolute;
+  bottom: -40px;
+  width: 26px;
+  height: 26px;
+  background: #e36b5f;
+  transform: rotate(45deg);
+  opacity: 0.35;
+  animation: float-heart 8s linear infinite;
+}
+
+.heart::before,
+.heart::after {
+  content: "";
+  position: absolute;
+  width: 26px;
+  height: 26px;
+  background: #e36b5f;
+  border-radius: 50%;
+}
+
+.heart::before {
+  top: -13px;
+  left: 0;
+}
+
+.heart::after {
+  top: 0;
+  left: -13px;
+}
+
+.heart:nth-child(1) {
+  left: 8%;
+  animation-delay: 0s;
+}
+
+.heart:nth-child(2) {
+  left: 22%;
+  animation-delay: 1.2s;
+}
+
+.heart:nth-child(3) {
+  left: 39%;
+  animation-delay: 2.8s;
+}
+
+.heart:nth-child(4) {
+  left: 58%;
+  animation-delay: 0.8s;
+}
+
+.heart:nth-child(5) {
+  left: 74%;
+  animation-delay: 2.1s;
+}
+
+.heart:nth-child(6) {
+  left: 90%;
+  animation-delay: 3.4s;
+}
+
 .tools-card h3 {
   margin: 0;
   font-family: "Playfair Display", serif;
@@ -262,6 +389,20 @@ input[type="url"] {
   }
 }
 
+@keyframes float-heart {
+  0% {
+    transform: translateY(0) rotate(45deg) scale(0.85);
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.35;
+  }
+  100% {
+    transform: translateY(-460px) rotate(45deg) scale(1.15);
+    opacity: 0;
+  }
+}
+
 @media (max-width: 650px) {
   .card {
     padding: 18px;
@@ -275,5 +416,9 @@ input[type="url"] {
   .qr-wrapper {
     flex-direction: column;
     align-items: flex-start;
+  }
+
+  .dual-photos {
+    grid-template-columns: 1fr;
   }
 }

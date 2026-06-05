@@ -5,14 +5,12 @@ Pagina romantica con preguntas paso a paso, propuesta final y generador de QR.
 ## Personalizar rapido
 
 1. Cambia la foto final:
-   - Reemplaza `assets/nosotros.svg` por una foto tuya con ella (ejemplo: `assets/nosotros.jpg`).
-   - Si usas JPG, edita `index.html` y cambia `src="assets/nosotros.svg"` por `src="assets/nosotros.jpg"`.
-2. Sube una foto por cada respuesta correcta:
-   - Reemplaza `assets/momento-1.svg`, `assets/momento-2.svg`, ..., `assets/momento-5.svg` por tus fotos.
-   - Si usas JPG/PNG, cambia las rutas `photo` en `script.js`.
-3. Cambia la fecha en `index.html` dentro de `id="special-date"`.
-4. Ajusta preguntas/opciones/respuesta correcta en `script.js` (array `questions`).
-5. Ajusta el texto de la propuesta en `index.html` (elemento `id="proposal-text"`).
+   - Usa `assets/nosotros.jpg` para la foto final de ustedes.
+2. Sube una foto por cada respuesta correcta de las preguntas 1 a 4:
+   - Usa `assets/momento-1.jpg`, `assets/momento-2.jpg`, `assets/momento-3.jpg` y `assets/momento-4.jpg`.
+3. Para la pantalla de fecha especial, usa `assets/fecha-1.jpg` y `assets/fecha-2.jpg`.
+4. Cambia la fecha en `index.html` dentro de `id="special-date"`.
+5. Ajusta preguntas/opciones/respuesta correcta en `script.js` (array `questions`).
 
 ## Como funciona ahora
 

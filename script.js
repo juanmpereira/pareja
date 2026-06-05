@@ -4,7 +4,7 @@ const questions = [
     subtitle: "Elegi una opcion para seguir avanzando.",
     options: ["Picada", "Pastas", "Pizza", "Carne al horno"],
     correct: "Pizza",
-    photo: "assets/momento-1.svg",
+    photo: "assets/momento-1.jpg",
     momentTitle: "Nuestro primer plato juntos",
     momentCaption: "Reemplaza esta imagen por la foto de ese dia.",
   },
@@ -13,7 +13,7 @@ const questions = [
     subtitle: "Pista: fue una escapada hermosa.",
     options: ["Cordoba", "San clemente", "Costa del este", "Mar del tuyu"],
     correct: "San clemente",
-    photo: "assets/momento-2.svg",
+    photo: "assets/momento-2.jpg",
     momentTitle: "Nuestro primer viaje",
     momentCaption: "Agrega aqui una foto de San Clemente.",
   },
@@ -22,7 +22,7 @@ const questions = [
     subtitle: "Seguro te acordas de esta.",
     options: ["Tornados", "El cuervo", "La trampa", "Sonrie"],
     correct: "Tornados",
-    photo: "assets/momento-3.svg",
+    photo: "assets/momento-3.jpg",
     momentTitle: "Nuestra primera pelicula",
     momentCaption: "Pon una foto de esa salida al cine.",
   },
@@ -31,7 +31,7 @@ const questions = [
     subtitle: "A ver si coincidimos...",
     options: ["Aire libre", "Nu fuegos", "Vico", "Invernadero"],
     correct: "Nu fuegos",
-    photo: "assets/momento-4.svg",
+    photo: "assets/momento-4.jpg",
     momentTitle: "Nuestro primer mes",
     momentCaption: "Suma una foto de ese festejo.",
   },
@@ -40,9 +40,6 @@ const questions = [
     subtitle: "Ultima para desbloquear la gran pregunta.",
     options: ["26/11", "30/11", "09/06", "18/08"],
     correct: "18/08",
-    photo: "assets/momento-5.svg",
-    momentTitle: "El mejor dia del anio",
-    momentCaption: "Puedes poner una foto especial de esa fecha.",
   },
 ];
 
@@ -60,11 +57,13 @@ const momentCaption = document.getElementById("moment-caption");
 const nextBtn = document.getElementById("next-btn");
 
 const quizCard = document.getElementById("quiz-card");
+const specialDateCard = document.getElementById("special-date-card");
+const proposalCard = document.getElementById("proposal-card");
 const finalCard = document.getElementById("final-card");
-
-const yesBtn = document.getElementById("yes-btn");
-const noBtn = document.getElementById("no-btn");
-const resultMessage = document.getElementById("result-message");
+const continueToProposalBtn = document.getElementById("continue-to-proposal");
+const proposalYesBtn = document.getElementById("proposal-yes-btn");
+const proposalNoBtn = document.getElementById("proposal-no-btn");
+const proposalFeedback = document.getElementById("proposal-feedback");
 
 const generateQrBtn = document.getElementById("generate-qr");
 const qrWrapper = document.getElementById("qr-wrapper");
@@ -102,6 +101,12 @@ function evaluateAnswer(selectedOption) {
     return;
   }
 
+  if (currentQuestion === questions.length - 1) {
+    quizCard.classList.add("hidden");
+    specialDateCard.classList.remove("hidden");
+    return;
+  }
+
   answerFeedback.textContent = "Bien! Acertaste.";
   answerFeedback.className = "answer-feedback success";
   questionActions.innerHTML = "";
@@ -113,18 +118,22 @@ function evaluateAnswer(selectedOption) {
 
 function nextQuestion() {
   currentQuestion += 1;
-
-  if (currentQuestion < questions.length) {
-    renderQuestion();
-    return;
-  }
-
-  quizCard.classList.add("hidden");
-  finalCard.classList.remove("hidden");
+  renderQuestion();
 }
 
 function encodeUrl(value) {
   return encodeURIComponent(value.trim());
+}
+
+function normalizeUrl(value) {
+  const trimmed = value.trim();
+  if (!trimmed) {
+    return "";
+  }
+  if (trimmed.startsWith("http://") || trimmed.startsWith("https://")) {
+    return trimmed;
+  }
+  return `https://${trimmed}`;
 }
 
 function isValidUrl(value) {
@@ -136,31 +145,31 @@ function isValidUrl(value) {
   }
 }
 
-yesBtn.addEventListener("click", () => {
-  resultMessage.classList.remove("hidden");
-  resultMessage.textContent = "Sabia que dirias que si. Te prometo hacerte feliz cada dia. Te amo.";
-  noBtn.classList.add("hidden");
-});
-
-noBtn.addEventListener("mouseenter", () => {
-  // Hace que el boton esquive el cursor para jugar.
-  const maxX = 140;
-  const maxY = 80;
-  const offsetX = Math.round(Math.random() * maxX - maxX / 2);
-  const offsetY = Math.round(Math.random() * maxY - maxY / 2);
-  noBtn.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
-});
-
 nextBtn.addEventListener("click", nextQuestion);
 
+continueToProposalBtn.addEventListener("click", () => {
+  specialDateCard.classList.add("hidden");
+  proposalCard.classList.remove("hidden");
+});
+
+proposalNoBtn.addEventListener("click", () => {
+  proposalFeedback.textContent = "Esa no era la respuesta correcta... intenta otra vez mi amor.";
+});
+
+proposalYesBtn.addEventListener("click", () => {
+  proposalCard.classList.add("hidden");
+  finalCard.classList.remove("hidden");
+});
+
 generateQrBtn.addEventListener("click", () => {
-  const url = urlInput.value;
+  const url = normalizeUrl(urlInput.value);
 
   if (!isValidUrl(url)) {
     alert("Pon un enlace valido que empiece con http:// o https://");
     return;
   }
 
+  urlInput.value = url;
   const qrApi = `https://api.qrserver.com/v1/create-qr-code/?size=280x280&data=${encodeUrl(url)}`;
   qrImage.src = qrApi;
   qrLink.href = url;
