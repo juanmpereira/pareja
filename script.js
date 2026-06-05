@@ -65,12 +65,6 @@ const proposalYesBtn = document.getElementById("proposal-yes-btn");
 const proposalNoBtn = document.getElementById("proposal-no-btn");
 const proposalFeedback = document.getElementById("proposal-feedback");
 
-const generateQrBtn = document.getElementById("generate-qr");
-const qrWrapper = document.getElementById("qr-wrapper");
-const qrImage = document.getElementById("qr-image");
-const qrLink = document.getElementById("qr-link");
-const urlInput = document.getElementById("url-input");
-
 function renderQuestion() {
   const q = questions[currentQuestion];
 
@@ -121,30 +115,6 @@ function nextQuestion() {
   renderQuestion();
 }
 
-function encodeUrl(value) {
-  return encodeURIComponent(value.trim());
-}
-
-function normalizeUrl(value) {
-  const trimmed = value.trim();
-  if (!trimmed) {
-    return "";
-  }
-  if (trimmed.startsWith("http://") || trimmed.startsWith("https://")) {
-    return trimmed;
-  }
-  return `https://${trimmed}`;
-}
-
-function isValidUrl(value) {
-  try {
-    const parsed = new URL(value);
-    return parsed.protocol === "http:" || parsed.protocol === "https:";
-  } catch {
-    return false;
-  }
-}
-
 nextBtn.addEventListener("click", nextQuestion);
 
 continueToProposalBtn.addEventListener("click", () => {
@@ -159,22 +129,6 @@ proposalNoBtn.addEventListener("click", () => {
 proposalYesBtn.addEventListener("click", () => {
   proposalCard.classList.add("hidden");
   finalCard.classList.remove("hidden");
-});
-
-generateQrBtn.addEventListener("click", () => {
-  const url = normalizeUrl(urlInput.value);
-
-  if (!isValidUrl(url)) {
-    alert("Pon un enlace valido que empiece con http:// o https://");
-    return;
-  }
-
-  urlInput.value = url;
-  const qrApi = `https://api.qrserver.com/v1/create-qr-code/?size=280x280&data=${encodeUrl(url)}`;
-  qrImage.src = qrApi;
-  qrLink.href = url;
-  qrLink.textContent = url;
-  qrWrapper.classList.remove("hidden");
 });
 
 renderQuestion();
