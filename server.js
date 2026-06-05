@@ -21,7 +21,8 @@ const MIME_TYPES = {
 
 function safePath(urlPath) {
   const decoded = decodeURIComponent(urlPath.split("?")[0]);
-  const normalized = path.normalize(decoded).replace(/^([.][.][/\\])+/, "");
+  const relative = decoded.replace(/^\/+/, "");
+  const normalized = path.normalize(relative).replace(/^([.][.][/\\])+/, "");
   return path.join(ROOT, normalized);
 }
 
@@ -41,7 +42,13 @@ function sendFile(res, filePath) {
 }
 
 const server = http.createServer((req, res) => {
-  const reqPath = req.url === "/" ? "/index.html" : req.url;
+  if (req.url === "/health") {
+    res.writeHead(200, { "Content-Type": "text/plain; charset=utf-8" });
+    res.end("ok");
+    return;
+  }
+
+  const reqPath = req.url === "/" ? "index.html" : req.url;
   const filePath = safePath(reqPath);
 
   // Keep serving only files inside the project directory.
