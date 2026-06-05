@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Una Pregunta Muy Especial</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&family=Playfair+Display:wght@600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="bg-shape shape-1" aria-hidden="true"></div>
+    <div class="bg-shape shape-2" aria-hidden="true"></div>
+
+    <main class="app">
+      <section class="card" id="quiz-card">
+        <p class="step" id="step-indicator">Pregunta 1 de 5</p>
+        <h1 class="title" id="question-title"></h1>
+        <p class="description" id="question-subtitle"></p>
+        <p class="answer-feedback" id="answer-feedback"></p>
+
+        <div class="actions" id="question-actions"></div>
+
+        <section class="moment-card hidden" id="moment-card">
+          <p class="step">Respuesta correcta</p>
+          <h3 class="moment-title" id="moment-title"></h3>
+          <figure class="photo-frame">
+            <img id="moment-photo" src="assets/momento-1.svg" alt="Recuerdo del momento" />
+            <figcaption id="moment-caption"></figcaption>
+          </figure>
+          <button class="btn btn-primary" id="next-btn">Siguiente</button>
+        </section>
+      </section>
+
+      <section class="card hidden" id="final-card">
+        <p class="step">Llegamos al final</p>
+        <h2 class="title">Entonces...</h2>
+        <p class="proposal" id="proposal-text">¿Quieres ser mi novia?</p>
+
+        <figure class="photo-frame">
+          <img
+            id="our-photo"
+            src="assets/nosotros.svg"
+            alt="Foto de nosotros"
+          />
+          <figcaption id="special-date">04 de junio de 2026</figcaption>
+        </figure>
+
+        <div class="final-actions" id="final-actions">
+          <button class="btn btn-primary" id="yes-btn">Si, quiero</button>
+          <button class="btn btn-ghost" id="no-btn">No se...</button>
+        </div>
+
+        <p class="result hidden" id="result-message"></p>
+      </section>
+
+      <section class="card tools-card">
+        <h3>QR para compartir</h3>
+        <p>
+          Pega aqui el enlace publico de esta pagina (por ejemplo, GitHub Pages) y
+          genera el QR para enviarselo.
+        </p>
+
+        <label for="url-input" class="label">Enlace</label>
+        <input
+          id="url-input"
+          type="url"
+          placeholder="https://tu-enlace.com"
+          autocomplete="off"
+        />
+        <button id="generate-qr" class="btn btn-primary">Generar QR</button>
+
+        <div class="qr-wrapper hidden" id="qr-wrapper">
+          <img id="qr-image" alt="Codigo QR de la pagina" />
+          <a id="qr-link" target="_blank" rel="noreferrer">Abrir enlace</a>
+        </div>
+      </section>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>
