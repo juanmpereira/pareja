@@ -1,0 +1,15 @@
+{
+  "name": "sorpresa-para-mi-novia",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Sitio romantico con quiz y propuesta final",
+  "scripts": {
+    "start": "serve -s . -l $PORT"
+  },
+  "dependencies": {
+    "serve": "^14.2.4"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
