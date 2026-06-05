@@ -10,7 +10,7 @@ const questions = [
   },
   {
     title: "2. Cual fue nuestro primer viaje juntos?",
-    subtitle: "Pista: fue una escapada hermosa.",
+    subtitle: "Pista: En ese viaje me depilaste las axilas.",
     options: ["Cordoba", "San clemente", "Costa del este", "Mar del tuyu"],
     correct: "San clemente",
     photo: "assets/momento-2.jpg",
@@ -19,16 +19,16 @@ const questions = [
   },
   {
     title: "3. Cual fue la primer pelicula que vimos en el cine?",
-    subtitle: "Seguro te acordas de esta.",
+    subtitle: "Muy buena pelicula .",
     options: ["Tornados", "El cuervo", "La trampa", "Sonrie"],
     correct: "Tornados",
     photo: "assets/momento-3.jpg",
     momentTitle: "Nuestra primera pelicula",
-    momentCaption: "Peliculon ya la primera que vimos.",
+    momentCaption: "Siempre con un balde de pochoclos.",
   },
   {
     title: "4. En que restaurant festejamos nuestro primer mes de novios?",
-    subtitle: "A ver si coincidimos...",
+    subtitle: "Y brindamos con champagne",
     options: ["Aire libre", "Nu fuegos", "Vico", "Invernadero"],
     correct: "Nu fuegos",
     photo: "assets/momento-4.jpg",
