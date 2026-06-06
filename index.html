@@ -28,7 +28,7 @@
         <section class="moment-card hidden" id="moment-card">
           <p class="step">Respuesta correcta</p>
           <h3 class="moment-title" id="moment-title"></h3>
-          <figure class="photo-frame">
+          <figure class="photo-frame photo-frame-fullscreen">
             <img id="moment-photo" src="assets/momento-1.jpg" alt="Recuerdo del momento" />
             <figcaption id="moment-caption"></figcaption>
           </figure>
@@ -42,10 +42,10 @@
         <p class="description">Un dia que quiero recordar siempre con vos.</p>
 
         <div class="dual-photos">
-          <figure class="photo-frame small-photo-frame">
+          <figure class="photo-frame small-photo-frame photo-frame-tall">
             <img src="assets/fecha-1.jpg" alt="Foto especial 1" id="date-photo-1" />
           </figure>
-          <figure class="photo-frame small-photo-frame">
+          <figure class="photo-frame small-photo-frame photo-frame-tall">
             <img src="assets/fecha-2.jpg" alt="Foto especial 2" id="date-photo-2" />
           </figure>
         </div>
@@ -77,10 +77,20 @@
         <h2 class="title">Siempre fuiste vos.</h2>
         <p class="proposal">Te amo. Esta vez es para siempre.</p>
 
-        <figure class="photo-frame">
+        <figure class="photo-frame photo-frame-fullscreen">
           <img id="our-photo" src="assets/nosotros.jpg" alt="Foto de nosotros" />
           <figcaption id="special-date">18/08/2024</figcaption>
         </figure>
+
+        <section class="video-block">
+          <h3>Y el video que mas me gusta no podia faltar</h3>
+          <video id="favorite-video" controls playsinline preload="metadata" poster="assets/nosotros2.jpg">
+            Tu navegador no soporta video HTML5.
+          </video>
+          <p class="video-hint" id="video-hint">Si queres, tambien podes dejar un video por defecto en assets/favorito.mp4.</p>
+          <label class="video-upload-label" for="video-upload">Cargar video desde el celu</label>
+          <input id="video-upload" type="file" accept="video/*" />
+        </section>
       </section>
     </main>
 

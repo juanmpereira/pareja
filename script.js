@@ -64,6 +64,72 @@ const continueToProposalBtn = document.getElementById("continue-to-proposal");
 const proposalYesBtn = document.getElementById("proposal-yes-btn");
 const proposalNoBtn = document.getElementById("proposal-no-btn");
 const proposalFeedback = document.getElementById("proposal-feedback");
+const videoUploadInput = document.getElementById("video-upload");
+const favoriteVideo = document.getElementById("favorite-video");
+const videoHint = document.getElementById("video-hint");
+const datePhoto1 = document.getElementById("date-photo-1");
+const datePhoto2 = document.getElementById("date-photo-2");
+const ourPhoto = document.getElementById("our-photo");
+
+let activeVideoObjectUrl = null;
+const defaultVideoCandidates = ["assets/favorito.mp4", "assets/video-favorito.mp4", "assets/favorito.mov"];
+
+function runCinematicIntro(photoElement) {
+  if (!photoElement) {
+    return;
+  }
+
+  photoElement.classList.remove("cinematic-enter");
+  void photoElement.offsetWidth;
+  photoElement.classList.add("cinematic-enter");
+}
+
+async function loadDefaultFavoriteVideo() {
+  for (const candidate of defaultVideoCandidates) {
+    try {
+      const response = await fetch(candidate, { method: "HEAD" });
+
+      if (!response.ok) {
+        continue;
+      }
+
+      favoriteVideo.src = candidate;
+      favoriteVideo.load();
+      videoHint.textContent = `Video por defecto cargado: ${candidate}. Si queres, podes reemplazarlo desde el celu.`;
+      return;
+    } catch {
+      // Si falla la verificacion, probamos con el siguiente archivo posible.
+    }
+  }
+}
+
+function transitionCards(fromCard, toCard, onEntered) {
+  fromCard.classList.add("card-exit");
+
+  fromCard.addEventListener(
+    "animationend",
+    () => {
+      fromCard.classList.add("hidden");
+      fromCard.classList.remove("card-exit");
+
+      toCard.classList.remove("hidden");
+      toCard.classList.add("card-enter");
+
+      toCard.addEventListener(
+        "animationend",
+        () => {
+          toCard.classList.remove("card-enter");
+
+          if (typeof onEntered === "function") {
+            onEntered();
+          }
+        },
+        { once: true }
+      );
+    },
+    { once: true }
+  );
+}
 
 function renderQuestion() {
   const q = questions[currentQuestion];
@@ -96,8 +162,7 @@ function evaluateAnswer(selectedOption) {
   }
 
   if (currentQuestion === questions.length - 1) {
-    quizCard.classList.add("hidden");
-    specialDateCard.classList.remove("hidden");
+    transitionCards(quizCard, specialDateCard);
     return;
   }
 
@@ -108,6 +173,7 @@ function evaluateAnswer(selectedOption) {
   momentPhoto.src = q.photo;
   momentCaption.textContent = q.momentCaption;
   momentCard.classList.remove("hidden");
+  runCinematicIntro(momentPhoto);
 }
 
 function nextQuestion() {
@@ -118,8 +184,7 @@ function nextQuestion() {
 nextBtn.addEventListener("click", nextQuestion);
 
 continueToProposalBtn.addEventListener("click", () => {
-  specialDateCard.classList.add("hidden");
-  proposalCard.classList.remove("hidden");
+  transitionCards(specialDateCard, proposalCard);
 });
 
 proposalNoBtn.addEventListener("click", () => {
@@ -127,8 +192,29 @@ proposalNoBtn.addEventListener("click", () => {
 });
 
 proposalYesBtn.addEventListener("click", () => {
-  proposalCard.classList.add("hidden");
-  finalCard.classList.remove("hidden");
+  transitionCards(proposalCard, finalCard, () => {
+    runCinematicIntro(ourPhoto);
+  });
 });
 
+videoUploadInput.addEventListener("change", (event) => {
+  const file = event.target.files && event.target.files[0];
+
+  if (!file) {
+    return;
+  }
+
+  if (activeVideoObjectUrl) {
+    URL.revokeObjectURL(activeVideoObjectUrl);
+  }
+
+  activeVideoObjectUrl = URL.createObjectURL(file);
+  favoriteVideo.src = activeVideoObjectUrl;
+  favoriteVideo.load();
+  videoHint.textContent = `Video cargado: ${file.name}`;
+});
+
+runCinematicIntro(datePhoto1);
+runCinematicIntro(datePhoto2);
+loadDefaultFavoriteVideo();
 renderQuestion();
