@@ -16,6 +16,9 @@ const MIME_TYPES = {
   ".png": "image/png",
   ".svg": "image/svg+xml",
   ".webp": "image/webp",
+  ".mp4": "video/mp4",
+  ".mov": "video/quicktime",
+  ".m4v": "video/x-m4v",
   ".ico": "image/x-icon",
 };
 
@@ -26,18 +29,71 @@ function safePath(urlPath) {
   return path.join(ROOT, normalized);
 }
 
-function sendFile(res, filePath) {
-  fs.readFile(filePath, (err, data) => {
-    if (err) {
-      res.writeHead(404, { "Content-Type": "text/plain; charset=utf-8" });
-      res.end("Not Found");
+function sendNotFound(res) {
+  res.writeHead(404, { "Content-Type": "text/plain; charset=utf-8" });
+  res.end("Not Found");
+}
+
+function sendFile(req, res, filePath) {
+  fs.stat(filePath, (err, stats) => {
+    if (err || !stats.isFile()) {
+      sendNotFound(res);
       return;
     }
 
     const ext = path.extname(filePath).toLowerCase();
     const contentType = MIME_TYPES[ext] || "application/octet-stream";
-    res.writeHead(200, { "Content-Type": contentType });
-    res.end(data);
+    const rangeHeader = req.headers.range;
+
+    if (rangeHeader) {
+      const match = /^bytes=(\d*)-(\d*)$/.exec(rangeHeader);
+
+      if (!match) {
+        res.writeHead(416, { "Content-Range": `bytes */${stats.size}` });
+        res.end();
+        return;
+      }
+
+      const start = match[1] ? Number(match[1]) : 0;
+      const end = match[2] ? Number(match[2]) : stats.size - 1;
+
+      if (!Number.isFinite(start) || !Number.isFinite(end) || start > end || start >= stats.size) {
+        res.writeHead(416, { "Content-Range": `bytes */${stats.size}` });
+        res.end();
+        return;
+      }
+
+      const safeEnd = Math.min(end, stats.size - 1);
+      const chunkSize = safeEnd - start + 1;
+
+      res.writeHead(206, {
+        "Content-Type": contentType,
+        "Accept-Ranges": "bytes",
+        "Content-Range": `bytes ${start}-${safeEnd}/${stats.size}`,
+        "Content-Length": chunkSize,
+      });
+
+      if (req.method === "HEAD") {
+        res.end();
+        return;
+      }
+
+      fs.createReadStream(filePath, { start, end: safeEnd }).pipe(res);
+      return;
+    }
+
+    res.writeHead(200, {
+      "Content-Type": contentType,
+      "Content-Length": stats.size,
+      "Accept-Ranges": "bytes",
+    });
+
+    if (req.method === "HEAD") {
+      res.end();
+      return;
+    }
+
+    fs.createReadStream(filePath).pipe(res);
   });
 }
 
@@ -62,11 +118,16 @@ function requestHandler(req, res) {
 
   fs.stat(filePath, (err, stats) => {
     if (!err && stats.isFile()) {
-      sendFile(res, filePath);
+      sendFile(req, res, filePath);
       return;
     }
 
-    sendFile(res, path.join(ROOT, "index.html"));
+    if (path.extname(reqPath)) {
+      sendNotFound(res);
+      return;
+    }
+
+    sendFile(req, res, path.join(ROOT, "index.html"));
   });
 }
 
