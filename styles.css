@@ -553,8 +553,8 @@ input[type="url"] {
   }
 
   .photo-frame-fullscreen img {
-    min-height: 68dvh;
-    height: min(84dvh, 980px);
+    min-height: 52dvh;
+    height: min(64dvh, 760px);
   }
 
   .photo-frame-tall img {
@@ -563,6 +563,9 @@ input[type="url"] {
   }
 
   #favorite-video {
-    max-height: 82dvh;
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    max-height: 46dvh;
   }
 }

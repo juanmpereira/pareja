@@ -72,7 +72,15 @@ const datePhoto2 = document.getElementById("date-photo-2");
 const ourPhoto = document.getElementById("our-photo");
 
 let activeVideoObjectUrl = null;
-const defaultVideoCandidates = ["assets/favorito.mp4", "assets/video-favorito.mp4", "assets/favorito.mov"];
+const defaultVideoCandidates = ["assets/video.mp4", "assets/favorito.mp4", "assets/video-favorito.mp4", "assets/favorito.mov"];
+
+function setVideoHint(message) {
+  if (!videoHint) {
+    return;
+  }
+
+  videoHint.textContent = message;
+}
 
 function runCinematicIntro(photoElement) {
   if (!photoElement) {
@@ -95,7 +103,7 @@ async function loadDefaultFavoriteVideo() {
 
       favoriteVideo.src = candidate;
       favoriteVideo.load();
-      videoHint.textContent = `Video por defecto cargado: ${candidate}. Si queres, podes reemplazarlo desde el celu.`;
+      setVideoHint(`Video por defecto cargado: ${candidate}. Si queres, podes reemplazarlo desde el celu.`);
       return;
     } catch {
       // Si falla la verificacion, probamos con el siguiente archivo posible.
@@ -197,22 +205,24 @@ proposalYesBtn.addEventListener("click", () => {
   });
 });
 
-videoUploadInput.addEventListener("change", (event) => {
-  const file = event.target.files && event.target.files[0];
+if (videoUploadInput) {
+  videoUploadInput.addEventListener("change", (event) => {
+    const file = event.target.files && event.target.files[0];
 
-  if (!file) {
-    return;
-  }
+    if (!file) {
+      return;
+    }
 
-  if (activeVideoObjectUrl) {
-    URL.revokeObjectURL(activeVideoObjectUrl);
-  }
+    if (activeVideoObjectUrl) {
+      URL.revokeObjectURL(activeVideoObjectUrl);
+    }
 
-  activeVideoObjectUrl = URL.createObjectURL(file);
-  favoriteVideo.src = activeVideoObjectUrl;
-  favoriteVideo.load();
-  videoHint.textContent = `Video cargado: ${file.name}`;
-});
+    activeVideoObjectUrl = URL.createObjectURL(file);
+    favoriteVideo.src = activeVideoObjectUrl;
+    favoriteVideo.load();
+    setVideoHint(`Video cargado: ${file.name}`);
+  });
+}
 
 runCinematicIntro(datePhoto1);
 runCinematicIntro(datePhoto2);
